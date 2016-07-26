@@ -1,0 +1,23 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+getByMoney	/usr/local/var/www/php/niaoge.php	/^function getByMoney($money)$/;"	function	line:3
+getByGaizi	/usr/local/var/www/php/niaoge.php	/^function getByGaizi($gaizi)$/;"	function	line:8
+getByPingzi	/usr/local/var/www/php/niaoge.php	/^function getByPingzi($pingzi)$/;"	function	line:13
+main	/usr/local/var/www/php/niaoge.php	/^function main ($money, $pingzi = 0, $gaizi = 0, $count = 0)$/;"	function	line:18
+pingzi	/usr/local/var/www/php/niaoge.php	/^function main ($money, $pingzi = 0, $gaizi = 0, $count = 0)$/;"	variable	line:18
+return	/usr/local/var/www/php/niaoge.php	/^    $return = getByMoney($money);$/;"	variable	line:21
+count	/usr/local/var/www/php/niaoge.php	/^    $count = $count + $return[0];$/;"	variable	line:22
+gaizi	/usr/local/var/www/php/niaoge.php	/^    $gaizi = $gaizi + $return[0];$/;"	variable	line:23
+pingzi	/usr/local/var/www/php/niaoge.php	/^    $pingzi = $pingzi + $return[0];$/;"	variable	line:24
+money	/usr/local/var/www/php/niaoge.php	/^    $money = $return[1];$/;"	variable	line:25
+return	/usr/local/var/www/php/niaoge.php	/^    $return = getByPingzi($pingzi);$/;"	variable	line:28
+gaizi	/usr/local/var/www/php/niaoge.php	/^    $gaizi = $gaizi + $return[0];$/;"	variable	line:30
+pingzi	/usr/local/var/www/php/niaoge.php	/^    $pingzi = $return[1] + $return[0];$/;"	variable	line:31
+return	/usr/local/var/www/php/niaoge.php	/^    $return = getByGaizi($gaizi);$/;"	variable	line:34
+count	/usr/local/var/www/php/niaoge.php	/^    $count = $count + $return[0];$/;"	variable	line:35
+pingzi	/usr/local/var/www/php/niaoge.php	/^    $pingzi = $pingzi + $return[0];$/;"	variable	line:36
+gaizi	/usr/local/var/www/php/niaoge.php	/^    $gaizi = $return[1] + $return[0];$/;"	variable	line:37
