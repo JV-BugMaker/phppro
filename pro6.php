@@ -1,5 +1,4 @@
 <?php
-//今天继续挖掘wuli鸟哥的博客
 var_dump();
 var_export();
 //说实话 我一般都是用dump的 export基本没怎么用
