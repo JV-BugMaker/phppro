@@ -92,6 +92,7 @@ declare(ticks=2){
  *
  * */
 function memoryUsage(){
+    //返回分配给 PHP 的内存量  memory_get_usage 当前脚本的 返回值单位是byte
     printf("%s: %s<br/>", date("H:i:s", time()), memory_get_usage());
 
     //var_dump(debug_backtrace());
@@ -111,7 +112,7 @@ declare(ticks=1){
         $shm_id = shmop_open($shm_key, 'c', 0644, 100);
 
 }
-
+//Get size of shared memory block 从共享内存块的尺寸
 printf("Size of Shared Memory is: %s<br/>", shmop_size($shm_id));
 //读取共享的内存块
 $shm_text = shmop_read($shm_id, 0, 100);
