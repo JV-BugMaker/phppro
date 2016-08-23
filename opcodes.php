@@ -30,11 +30,11 @@ var_dump(token_get_all($str));die;
 //3.操作数1  给Opcode的操作数
 //4.操作数2
 //5.扩展值   1个整形用来区别被重载的操作符
-我们的PHP代码会被Parsing成:
-* ZEND_ECHO     'Hello World'
-* ZEND_ADD       ~0 1 1
-* ZEND_ASSIGN  !0 ~0
-* ZEND_ECHO     !0  !0---即被CV起来的$a
+//我们的PHP代码会被Parsing成:
+//* ZEND_ECHO     'Hello World'
+//* ZEND_ADD       ~0 1 1
+//* ZEND_ASSIGN  !0 ~0
+//* ZEND_ECHO     !0  !0---即被CV起来的$a
 //每个操作数都是由以下俩个部分组成：
 //a)op_type : 为IS_CONST, IS_TMP_VAR, IS_VAR, IS_UNUSED, or IS_CV
 
