@@ -10,8 +10,7 @@ namespace core;
 class Vivi{
     private static $classMap = array();
     public static function run(){
-        //p('vivi is running');
-        $obj = new \core\Route();
+        p('vivi is running');
     }
     public static function load($class){
         if(in_array($class,self::$classMap)){
