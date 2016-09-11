@@ -20,5 +20,7 @@ if(DEBUG){
 }
 include CORE.'/common/function.php';
 include CORE.'/vivi.class.php';
+//类自动加载
+spl_autoload_register('\core\Vivi::load');
 \core\Vivi::run();
 
