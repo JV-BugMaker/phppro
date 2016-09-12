@@ -10,7 +10,9 @@ namespace core;
 class Vivi{
     private static $classMap = array();
     public static function run(){
-        p('vivi is running');
+        //路由处理
+        $run = new \core\lib\Route();
+        
     }
     public static function load($class){
         if(in_array($class,self::$classMap)){
