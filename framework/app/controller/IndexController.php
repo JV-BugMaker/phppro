@@ -7,9 +7,13 @@
  * 具体路由指定
  */
 namespace app\controller;
+use \core\lib\Model;
 class IndexController
 {
     public function index(){
         p("it's indexController index");
+        $model = new Model();
+        $sql = 'SELECT * FROM test';
+        $res = $model->query($sql);
     }
 }
