@@ -12,7 +12,20 @@ class Vivi{
     public static function run(){
         //路由处理
         $run = new \core\lib\Route();
-        
+        //路由处理完成后需要对应相应的隐射表
+        $ctrl = $run->controller;
+        $action = $run->action;
+        $ctrlFile = APP.'/controller/'.ucfirst($run->controller).'Controller.php';
+        if(is_file($ctrlFile)){
+            //路由模块类 实例化之后 直接指向处理
+            $module = '\\'.MODULE.'\\controller\\'.ucfirst($ctrl).'Controller';
+            include $ctrlFile;
+            $controller = new $module;
+            $controller->$action();
+        }else{
+            throw new \Exception('404 not found');
+        }
+
     }
     public static function load($class){
         if(in_array($class,self::$classMap)){

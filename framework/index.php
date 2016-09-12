@@ -11,6 +11,7 @@
 define('VIVI',realpath('./'));
 define('CORE',VIVI.'/core');
 define('APP',VIVI.'/app');
+define('MODULE','app');
 define('DEBUG',true);
 
 if(DEBUG){
