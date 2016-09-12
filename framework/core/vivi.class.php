@@ -9,12 +9,15 @@
 namespace core;
 class Vivi{
     private static $classMap = array();
+    public static $controller;
+    public static $action;
+    public static $assign;
     public static function run(){
         //路由处理
         $run = new \core\lib\Route();
         //路由处理完成后需要对应相应的隐射表
-        $ctrl = $run->controller;
-        $action = $run->action;
+        self::$controller = $ctrl = $run->controller;
+        self::$action = $action = $run->action;
         $ctrlFile = APP.'/controller/'.ucfirst($run->controller).'Controller.php';
         if(is_file($ctrlFile)){
             //路由模块类 实例化之后 直接指向处理
@@ -43,6 +46,22 @@ class Vivi{
             }else{
                 return false;
             }
+        }
+    }
+
+    public function assign($name,$value)
+    {
+        self::$assign[$name] = $value;
+    }
+
+    public function display()
+    {
+        $file = APP.'/view/'.ucfirst(self::$controller).'/'.self::$action.'.php';
+        if(is_file($file)){
+            extract(self::$assign);
+            include $file;
+        }else{
+            throw new \Exception('404 NOT FOUND');
         }
     }
 }

@@ -8,12 +8,19 @@
  */
 namespace app\controller;
 use \core\lib\Model;
-class IndexController
+class IndexController extends \core\Vivi
 {
     public function index(){
         p("it's indexController index");
         $model = new Model();
         $sql = 'SELECT * FROM test';
         $res = $model->query($sql);
+    }
+
+    public function show()
+    {
+        $this->assign('data','asdasd');
+        $this->assign('title','jv');
+        $this->display();
     }
 }
