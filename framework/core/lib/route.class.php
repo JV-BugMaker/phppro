@@ -7,6 +7,7 @@
  */
 namespace core\lib;
 
+use \core\lib\Config;
 class Route
 {
     public $controller;
@@ -22,13 +23,13 @@ class Route
                 $this->controller = $path_arr[0];
                 unset($path_arr[0]);
             }else{
-                $this->controller = 'index';
+                $this->controller = Config::get('CONTROLLER','route');
             }
             if(isset($path_arr[1])){
                 $this->action = $path_arr[1];
                 unset($path_arr[1]);
             }else{
-                $this->action = 'index';
+                $this->action = Config::get('ACTION','route');
             }
             if($path_arr){
                 //对多余参数的处理成GET方式
@@ -42,8 +43,8 @@ class Route
                 }
             }
         }else{
-            $this->controller = 'index';
-            $this->action = 'index';
+            $this->controller = Config::get('CONTROLLER','route');
+            $this->action = Config::get('ACTION','route');
         }
     }
 }
