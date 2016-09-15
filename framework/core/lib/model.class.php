@@ -7,18 +7,14 @@
  */
 namespace core\lib;
 
-use \core\lib\Config;
+use core\lib\Config;
 
-class Model extends \PDO
+class Model extends \medoo
 {
     public function __construct()
     {
         //针对 这边出现localhost 去连接的时候出现错误 使用127.0.0.1
         $conf = Config::all('db');
-        try{
-            parent::__construct($conf['DSN'], $conf['USER'], $conf['PWD']);
-        }catch (\PDOException $e){
-            p($e->getMessage());
-        }
+        parent::__construct($conf);
     }
 }

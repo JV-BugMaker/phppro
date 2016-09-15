@@ -7,8 +7,10 @@
  */
 
 return array(
-    'DSN'=>'mysql:host=127.0.0.1;dbname=vivi',
-    'USER'=>'root',
-    'PWD'=>'',
-    'PORT'=>3306
+    'database_type' => 'mysql',
+    'database_name' => 'vivi',
+    'server' => '127.0.0.1',
+    'username' => 'root',
+    'password' => '',
+    'charset' => 'utf8'
 );

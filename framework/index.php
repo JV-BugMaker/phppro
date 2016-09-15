@@ -27,7 +27,6 @@ if(DEBUG){
     ini_set('display_error','Off');
 }
 
-dump($_SERVER);die;
 //asdasdasdasd();
 include CORE.'/common/function.php';
 include CORE.'/vivi.class.php';

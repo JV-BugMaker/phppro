@@ -7,14 +7,21 @@
  * 具体路由指定
  */
 namespace app\controller;
+use \app\model\testModel;
 use \core\lib\Model;
+
 class IndexController extends \core\Vivi
 {
     public function index(){
+        $data = array(
+            'name'=>'jv',
+            'age'=>23
+        );
+        $model = new testModel();
+        $model->insertOne($data);
+        dump($model->getAll());die;
         p("it's indexController index");
-        $model = new Model();
-        $sql = 'SELECT * FROM test';
-        $res = $model->query($sql);
+
     }
 
     public function show()
