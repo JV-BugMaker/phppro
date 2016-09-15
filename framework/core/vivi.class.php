@@ -56,10 +56,17 @@ class Vivi{
 
     public function display()
     {
-        $file = APP.'/view/'.ucfirst(self::$controller).'/'.self::$action.'.php';
+        $file = APP.'/view/'.ucfirst(self::$controller).'/'.self::$action.'.html';
         if(is_file($file)){
             extract(self::$assign);
-            include $file;
+            \Twig_Autoloader::register();
+            $loader = new \Twig_Loader_Filesystem(APP.'/view/'.ucfirst(self::$controller));
+            $twig = new \Twig_Environment($loader, array(
+                'cache' => VIVI.'/cache/tmpcache',
+                'debug'=> DEBUG
+            ));
+            $template = $twig->loadTemplate(self::$action.'.html');
+            $template->display(self::$assign?self::$assign:'');
         }else{
             throw new \Exception('404 NOT FOUND');
         }
