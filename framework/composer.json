@@ -1,0 +1,14 @@
+{
+    "name":"VIVI PHP",
+    "description":"PHP FRAMEWORK",
+    "type":"FRAMEWORK",
+    "keywords":[
+        "PHP",
+        "PHP FRAMEWORK"
+    ],
+    "require":{
+        "php":">=5.3.0",
+        "filp/whoops":"*",
+        "symfony/var-dumper":"*"
+    }
+}

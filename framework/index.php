@@ -14,11 +14,21 @@ define('APP',VIVI.'/app');
 define('MODULE','app');
 define('DEBUG',true);
 
+//首先引入vendor核心 自动加载文件
+include "vendor/autoload.php";
+
 if(DEBUG){
+    //实例化错误显示页面
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
     ini_set('display_error','On');
 }else{
     ini_set('display_error','Off');
 }
+
+dump($_SERVER);die;
+//asdasdasdasd();
 include CORE.'/common/function.php';
 include CORE.'/vivi.class.php';
 //类自动加载
