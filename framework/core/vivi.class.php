@@ -66,7 +66,7 @@ class Vivi{
                 'debug'=> DEBUG
             ));
             $template = $twig->loadTemplate(self::$action.'.html');
-            $template->display(self::$assign?self::$assign:'');
+            $template->display(self::$assign?self::$assign:array());
         }else{
             throw new \Exception('404 NOT FOUND');
         }
