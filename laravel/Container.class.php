@@ -17,11 +17,12 @@ class Container
 
     protected $bindings = [];
 
+    //抽象类  具体实现对象  构造函数?  Visit Train
     public function bind($abstract,$concrete = null,$shared = false){
 
         //判断是否是匿名函数类的实例
         if(! $concrete instanceof Closure){
-            //如果提供的参数不是回调函数,则产生默认的回调函数
+            //如果提供的参数不是回调函数,则产生默认的回调函数  获取回调函数
             $concrete = $this->getClosure($abstract,$concrete);
         }
         //['concrete']=>$concrete ['shared'] =>  $shared
@@ -31,8 +32,9 @@ class Container
     //默认生成实例的回调函数
     protected function getClosure($abstract,$concrete){
         //生成实例的回调函数  $c一般为IoC容器对象,在调用生成实例式提供
-        //即build函数中的$concrete($this)
+        //即build函数中的$concrete($this)   返回一个闭包函数 -- 此函数就是能够实例化对象
         return function($c) use($abstract,$concrete){
+            //Visit Train
             $method = ($abstract== $concrete) ?'build':'make';
             return $c->$method($concrete);
         };
@@ -67,7 +69,8 @@ class Container
     }
     //实例化对象
 
-    public function build($concrete){
+    public function build($concrete)
+    {
         //此函数就是用来具体实例化对象
         if($concrete instanceof Closure){
             //传入的是object
@@ -146,10 +149,11 @@ class Train implements  Visit
 //实例化IoC容器
 $app = new Container();
 
+//Train的构造函数
 $app->bind("Visit","Train");
 
+//参数二 其实可以理解成构造函数
 $app->bind("traveller","Traveller");
 //通过容器实现依赖注入 完成类的实例化
-
 $tra = $app->make("traveller");
 $tra->visitTibet();
