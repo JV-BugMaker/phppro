@@ -18,6 +18,7 @@ class Container
     protected $bindings = [];
 
     public function bind($abstract,$concrete = null,$shared = false){
+
         //判断是否是匿名函数类的实例
         if(! $concrete instanceof Closure){
             //如果提供的参数不是回调函数,则产生默认的回调函数
@@ -38,9 +39,10 @@ class Container
     }
 
     //生成实例对象,首先解决接口和要实例化类之间的依赖关系
+    //创建实例对象
 
     public function make($abstract){
-        $concrete = $this->getContrete($abstract);
+        $concrete = $this->getConcrete($abstract);
 
         if($this->isBuildable($concrete,$abstract)){
             $object = $this->build($concrete);
@@ -66,12 +68,13 @@ class Container
     //实例化对象
 
     public function build($concrete){
+        //此函数就是用来具体实例化对象
         if($concrete instanceof Closure){
+            //传入的是object
             return $concrete($this);
         }
         //映射
-        $reflector = new Reflection($concrete);
-
+        $reflector = new ReflectionClass($concrete);
         if(! $reflector->isInstantiable()){
             echo $message = "Target[$concrete] is not Instantiable";
         }
@@ -105,7 +108,7 @@ class Container
 
     protected function resolveClass(ReflectionParameter $parameter)
     {
-        return $this->make($parameter->getClass()->name());
+        return $this->make($parameter->getClass()->name);
     }
 }
 
@@ -126,10 +129,25 @@ class Traveller
 }
 
 
+
+
+interface Visit {
+    public function go();
+}
+
+
+class Train implements  Visit
+{
+    public function go(){
+        echo "train";
+    }
+}
+
 //实例化IoC容器
 $app = new Container();
 
 $app->bind("Visit","Train");
+
 $app->bind("traveller","Traveller");
 //通过容器实现依赖注入 完成类的实例化
 
