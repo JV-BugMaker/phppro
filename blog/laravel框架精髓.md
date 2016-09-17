@@ -339,6 +339,61 @@ $tra = $app->make("traveller");
 $tra->visitTibet();
 ```
 
->下面贴自己的理解。
+>下面贴自己的理解,简单的demo
+
+```
+<?php
+
+//laravel  IOC容器 与依赖注入
+class Container {
+    private $container = [];
+    public function bind($name, Closure $c) {
+        $this->container[$name] = $c($this);
+    }
+
+    public function get($name, $params=[]) {
+        if (isset($this->container[$name])) {
+            return $this->container[$name];
+        }
+        return call_user_func($this->container[$name], $params);
+        //return $this->container[$name]($this); //赋予当前container上下文
+    }
+}
+
+class Config {
+    public $env = 'config s  test';
+
+    public function __construct(Container $container) {
+    }
+
+    public function getConfig() {
+        return 'config...config';
+    }
+
+}
+
+class Request {
+    private $config;
+    public function __construct($container) {
+        $this->config = $container->get('config');
+    }
+
+    public function getConfig() {
+       echo   $this->config->getConfig();
+    }
+}
+
+$container = new Container;
+$container->bind('config', function ($container) {
+    return new Config($container);
+});
+//request module
+$container->bind('request', function ($container) {
+    return new Request($container);
+});
+
+$container->get('request')->getConfig();
+```
+
 
 
