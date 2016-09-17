@@ -73,10 +73,10 @@ class Container
     {
         //此函数就是用来具体实例化对象
         if($concrete instanceof Closure){
-            //传入的是object
+            //传入的是object  返回一个闭包函数  用来实例化对象
             return $concrete($this);
         }
-        //映射
+        //通过映射实现对象的实例化
         $reflector = new ReflectionClass($concrete);
         if(! $reflector->isInstantiable()){
             echo $message = "Target[$concrete] is not Instantiable";
