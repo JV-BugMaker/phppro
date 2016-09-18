@@ -79,7 +79,7 @@ class Container
         //通过映射实现对象的实例化
         $reflector = new ReflectionClass($concrete);
         if(! $reflector->isInstantiable()){
-            echo $message = "Target[$concrete] is not Instantiable";
+            echo $message = "Target{$concrete} is not Instantiable";
         }
 
         $constructor = $reflector->getConstructor();
@@ -149,11 +149,13 @@ class Train implements  Visit
 //实例化IoC容器
 $app = new Container();
 
+//bind方法实现 对象名称和能够实例化对象的回调函数进行绑定
+//make函数就创建了对象  返回对象
 //Train的构造函数
 $app->bind("Visit","Train");
 
 //参数二 其实可以理解成构造函数
 $app->bind("traveller","Traveller");
 //通过容器实现依赖注入 完成类的实例化
-$tra = $app->make("traveller");
+$tra = $app->make("Visit");
 $tra->visitTibet();
