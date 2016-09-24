@@ -82,7 +82,7 @@ class CheckForMaintenanceMode implements Middleware
         $next();
     }
 }
-
+//返回一个回调函数 封装了一个管道处理函数
 function getSlice()
 {
     return function($stack,$pipe){
