@@ -76,3 +76,25 @@ $shoes = new Shoes($girl);
 $skirt = new Skirt($shoes);
 $fire = new Fire($skirt);
 $fire->display();
+//在对象中不停存储对象 component对象  最初的就是girl对象
+//object(Girl)#1 (1) {
+//["name":"Girl":private]=>
+//  string(5) "fancy"
+//}
+//object(Shoes)#2 (1) {
+//["component":"Finery":private]=>
+//  object(Girl)#1 (1) {
+//  ["name":"Girl":private]=>
+//    string(5) "fancy"
+//  }
+//}
+//object(Skirt)#3 (1) {
+//["component":"Finery":private]=>
+//  object(Shoes)#2 (1) {
+//  ["component":"Finery":private]=>
+//    object(Girl)#1 (1) {
+//    ["name":"Girl":private]=>
+//      string(5) "fancy"
+//    }
+//  }
+//}
