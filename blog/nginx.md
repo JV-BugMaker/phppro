@@ -27,7 +27,9 @@ location [= | ~ |~*|^~] uri{...}
 ```
 
 >"=",用于标准uri之前，要求请求字符串与uri严格匹配，如果匹配中成功就停止继续向下搜索并立志处理该请求。
+
 >“~”，用于表示uri包含正则表达式，并且区分大小写。
+
 >“~*”，用于表示uri包含正则表达式，并且不区分大小写。
 
 如果uri包含正则表达式，就必须使用“~”或者“~*”
@@ -68,7 +70,9 @@ $1 表示location中的正则表达式匹配部分 /data/site/web  $1 ---- site
 error_page code ... [=[response]] uri
 ```
 >'code',要处理的HTTP错误代码。
+
 >‘response’，可选项，将code制定的错误代码转化为新的错误代码
+
 >‘uri’，错误页面的路径或者网站地址。定向到需要的地址
 
 ```
@@ -85,3 +89,53 @@ location /404.html
 }
 ```
 error_page指令可以在http块、server块和location块中配置。
+
+###基于IP配置Nginx的访问权限
+
+```
+deny|allow address | CIDR | all;
+```
+>'address', 允许访问客户端的IP，不支持同时设置多个。
+
+>‘CIDR’，允许访问的客户端的CIDR地址，例如202.80.18.23/25，前面部分是32位IP地址，后面部分代表该IP中前25位是网络部分。
+
+>‘all’，表示允许所有客户端访问。
+
+```
+location /
+{
+	deny 192.168.1.1;
+	allow 192.168.0.1/25;
+	deny allow;
+}
+在此规则中，只要有相对应的匹配项的时候就会停止搜索。
+
+```
+###基于密码配置Nginx的访问权限
+
+该功能标准模块ngx_auth_basic_module
+
+```
+auth_basic string | off;
+```
+>'string', 开启该认证功能，并配置验证时的指示信息。
+
+>‘off’，关闭该认证功能。
+
+auth_basic_user_file 指令，用于设置包含用户名和密码信息的文件路径。
+
+```
+auth_basic_user_file file;
+```
+>'file',为密码文件的绝对路径。
+
+```
+name:password 
+```
+如何生存密码文件
+
+```
+htpasswd -c -d /path username  #然后输入密码即可
+```
+
+
