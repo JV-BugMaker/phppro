@@ -138,4 +138,39 @@ name:password
 htpasswd -c -d /path username  #然后输入密码即可
 ```
 
+##Nginx服务器架构初探
 
+Nginx涉及到的模块分为核心模块、标准HTTP模块、可选HTTP模块、邮件模块以及第三方模块等五大类。
+
+###核心模块
+
+* 主体功能：进程管理、权限控制、错误日志记录、配置解析等。
+* 响应请求事件必须的功能：事件驱动机制、正则表达式解析等。
+
+###标准http模块
+
+|模块 | 功能 | 
+| -----|:----:|
+| ngx\_http\_core    | 配置端口、URI分析、服务器响应错误处理、别名控制以及其他http核心失误    |
+| ngx\_http\_access\_module    | 基于IP地址的访问控制（允许/拒绝）    |
+| ngx\_http\_auth\_basic\_module    | 基于HTTP的身份认证    |
+| ngx\_http\_autoindex\_module | 处理以‘/’结尾的请求并自动目录 |
+| ngx\_http\_browser\_module | 解析HTTP请求头中的"User-Agent"域的值 |
+| ngx\_http\_charset\_module | 指定网页编码 |
+| ngx\_empty\_gif\_module | 从内存中创建一个1 * 1的透明gif图片，可以快速调用 |
+| ngx\_http\_fastcgi\_module |对fastcgi的支持|
+| ngx\_http\_geo\_module | 将客户端请求中的参数转化为键值对变量 |
+| ngx\_http\_gzip\_module | 压缩请求响应，可以减少数据传输 |
+| ngx\_http\_headers\_filter\_module | 设置HTTP响应头 |
+| ngx\_http\_index\_module | 处理以‘/’结尾的请求，如果没有找到该目录下的index页，就会将请求转给ngx\_http\_autoindex\_module模块处理；|
+| ngx\_http\_limit\_req\_module | 限制来自客户端的请求的响应和处理速率 |
+| ngx\_http\_limit\_conn\_module | 限制来自客户端的连接的响应和处理速率 |
+| ngx\_http\_log\_module | 自定义access日志 |
+| ngx\_http\_map\_module | 创建任意键值对变量 |
+| ngx\_http\_memcached\_module | 对memcached的支持 |
+| ngx\_http\_proxy\_module | 支持代理服务 |
+| ngx\_http\_referer\_module | 过滤HTTP头中‘Referer’域值为空的‘http’请求 |
+| ngx\_http\_rewrite\_module | 通过正则表达式重定向| 
+| ngx\_http\_scgi\_module | 对scgi的支持 |
+| ngx\_http\_ssl\_module | 对https的支持 |
+| ngx\_http\_upstream\_module | 定义一组服务器，可以接收来自代理、fastcgi、memcached的重定向，主要用于负载均衡|
