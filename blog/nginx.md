@@ -174,3 +174,25 @@ Nginx涉及到的模块分为核心模块、标准HTTP模块、可选HTTP模块�
 | ngx\_http\_scgi\_module | 对scgi的支持 |
 | ngx\_http\_ssl\_module | 对https的支持 |
 | ngx\_http\_upstream\_module | 定义一组服务器，可以接收来自代理、fastcgi、memcached的重定向，主要用于负载均衡|
+
+###可选http模块
+
+|模块 | 功能 | 
+| -----|:----:|
+| ngx\_addition\_module    | 在响应请求的页面开始或者结尾添加文本信息 |
+| ngx\_http\_degradation\_module |在低内存的情形下允许nginx服务器返回404错误或者204错误 |
+| ngx\_http\_perl\_module | 在nginx的配置文件中可以使用perl脚本 |
+| ngx\_http\_flv\_module | 支持将flash多媒体信息按照流文件传输，可以根据客户端指定的开始位置返回flash |
+| ngx\_http\_geoip\_module | 支持解析基于geoip数据库的客户端请求 |
+| ngx\_google\_perftools\_module | 支持google performance tools |
+| ngx\_http\_gzip\_module | 支持在线实时压缩响应客户端的输出数据流 |
+| ngx\_http\_gzip\_static\_module | 搜索并使用预压缩的以‘.gz’为后缀名的文件替代一般文件响应客户端请求 |
+| ngx\_http\_image\_filter\_module | 支持改变jpeg、gif、和png图片的尺寸和旋转方向 |
+| ngx\_http\_mp4\_module | 支持将H.264/AAC编码的多媒体信息 |
+| ngx\_http\_random\_index\_module | nginx接收到以‘/’结尾的请求时，在对应的目录下随机选择一个文件作为index文件。|
+| ngx\_http\_secure\_link\_module | 支持对请求链接的有效性检查 |
+| ngx\_http\_ssl\_module | 对https/ssl的支持 |
+| ngx\_http\_stub\_status\_module | 支持返回nginx服务器的同济信息，一般包括处理连接数量、连接成功的数量、处理的请求数、读取和返回的header信息数等信息 |
+| ngx\_http\_sub\_module | 使用指定的字符串替换响应信息中的信息 |
+| ngx\_http\_dev\_module | 支持http协议和webDAV协议中PUT、DELETE、MKCOL、COPY和MOVE方法 |
+| ngx\_http\_xslt\_module | 将XML响应信息使用XSLT（扩展样式表转换语言）进行转换 |
