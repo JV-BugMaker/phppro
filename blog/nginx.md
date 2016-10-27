@@ -362,3 +362,32 @@ net.core.netdev_max_backlog = 262144
 
 该参数的作用与上一个参数类似，设置内核放弃建立连接之前发送syn包的数量。
 
+###与网络连接相关的配置的4个指令
+
+1. keepalive_timeout 设置nginx服务器与客户端保持连接的超时时间
+1. send_timeout 设置nginx服务器响应客户端超时时间
+1.	client_header_buffer_size nginx服务器允许请求头部的缓冲区大小 #此指令可以根据系统分页大小来设置 
+
+```
+getconf PAGESIZE
+```
+>当nginx服务器返回400错误的情况时，可以考虑是否是客户端请求头部过大造成的。
+
+###与事件驱动模型相关的配置的8个指令
+
+* use use用于指定nginx服务器使用事件驱动模型。
+* worker_connection 用于设置nginx服务器的每个工作进程允许同时连接客户端的最大数量
+client = worker_process * worker_connections / 2 此指令一般情况下设置为65535
+,此指令的赋值与linux操作系统中进程可以打开的文件句柄数量有关。
+
+```
+cat /proc/sys/fs/file-max 
+echo "2390251" > /proc/sys/fs/file-max; sysctl -p
+```
+
+* worker_rlimit_sigpending  该指令用于设置linux平台的事件信号队列长度，基于rtsig模型的最大信号数。
+* devpoll_changes 和 devpoll_events 设置/dev/poll事件驱动模型下nginx服务器可以与内核之间传递事件的数量
+* kqueue_changes 和 kqueue_events 设置kqueue模型下nginx服务器可以与内核之间传递事件的数量。changes是设置传递给内核的事件数，events是从内核获取事件数量。
+* epoll_events 用于设置epoll事件驱动模型下nginx服务器可以与内核之间传递事件的数量。
+* rtsig_signo 用于设置rtsig模型使用的两个信号编号间隔。
+* rtsig_overflow_* events（指定队列溢出时使用poll库处理的事件数，16）、test（指定poll库处理完第几件事件之后将清空rtsig模型使用的信号队列，默认32）、threshold（指定rtsig模式使用的信号队列中的事件超过多少时就需要清空队列了，10）指令。用来控制rtsig模式中信号队列溢出时nginx服务器的处理方式。
