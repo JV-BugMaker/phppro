@@ -391,3 +391,100 @@ echo "2390251" > /proc/sys/fs/file-max; sysctl -p
 * epoll_events 用于设置epoll事件驱动模型下nginx服务器可以与内核之间传递事件的数量。
 * rtsig_signo 用于设置rtsig模型使用的两个信号编号间隔。
 * rtsig_overflow_* events（指定队列溢出时使用poll库处理的事件数，16）、test（指定poll库处理完第几件事件之后将清空rtsig模型使用的信号队列，默认32）、threshold（指定rtsig模式使用的信号队列中的事件超过多少时就需要清空队列了，10）指令。用来控制rtsig模式中信号队列溢出时nginx服务器的处理方式。
+
+##Nginx服务器的Gzip压缩
+
+>在nginx配置文件中配置gzip的使用，指令在配置文件http块、server块、location块中设置，nginx服务器通过ngx\_http\_gzip\_module模块、ngx\_http\_gzip\_static\_module块和ngx\_http\_gunzip\_module模块。
+
+###由ngx\_http\_gzip\_module模块处理的9个指令
+
+该模块主要负责gzip功能的开启和设置，对响应数据进行实时压缩。
+
+1.gzip指令
+
+```
+gzip on | off;
+```
+
+2.gzip\_buffers
+
+该指令用于设置gzip压缩文件使用缓存空间的大小
+
+```
+gzip_buffers number size;
+number 指定nginx服务器需要向系统申请缓存空间的个数
+size 指定每个缓存空间的大小
+```
+
+gzip压缩时需要向系统申请number * size大小的空间进行数据压缩。默认情况下number*size的值为128，其中size取内存页一页的大小为4kb或者8kb
+
+```
+gzip buffers 32 4k| 16 8k;
+```
+
+3.gzip\_comp\_level指令
+
+指定用于设定gzip压缩程度，从1到0.级别1表示压缩程度最低，效率最高。
+
+4.gzip\_disable指令
+
+针对不同种类客户端发起的请求，可以选择性的开启和关闭gzip功能。
+
+```
+gzip_disable regex ...;
+```
+
+regex 根据客户端的浏览器标识UA进行设置，支持使用正则表达式。
+
+5.gzip\_http\_version指令
+
+针对不同的http协议版本，需要选择性地开启或者关闭gzip功能。该指令用于设置gzip功能的最低http版本。
+
+```
+gzip_http_version 1.0|1.1;
+```
+6.gzip\_min\_length指令
+
+gzip压缩功能对大数据的压缩效果越明显，但是如果压缩很小的数据，可能会出现越压缩数据量越大的情况。
+ 
+该指令设置页面的字节数，当响应页面的大小大于该值时才会开启gzip功能。大小是从http响应头部中content_length指令。但是如果使用chunk编码动态压缩content_length活不存在或被忽略。
+
+```
+gzip_min_length length;
+```
+
+7.gzip\_proxied指令
+
+该指令在使用nginx服务器的反向代理功能时有效，前提是在后端服务器返回的响应页头部中，request部分包含用于通知代理服务器的via头域。
+
+```
+gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any ...;
+#off 关闭nginx服务器对后端服务器返回结果的gzip压缩，默认设置。
+#expired 当后端服务器响应页头部包含用于指示响应数据过期时间的expired头域，启用对响应数据的gzip压缩。
+#no-cache 当后端服务器响应头部包含用于通知所有缓存机制是否缓存的cache-control头域、且其指令值为no-cache时，启用对响应数据的gzip压缩。
+#no-stre 当后端服务器响应头部包含用于通知所有缓存机制是否缓存的cache-control头域、且其指令值为no-store时，启用对响应数据的gzip压缩。
+#private 当后端服务器响应头部包含用于通知所有缓存机制是否缓存的cache-control头域、且其指令值为private时，启用对响应数据的gzip压缩。
+#no_last_modify 当后端服务器响应头页不包含用于指明需要获取数据最后修改时间的last_modify头域时，启用对响应数据的gzip压缩。
+#no_etag 当侯丹服务器响应页头部不包含用于标示被请求变量的尸体值的etag头域，启用对响应数据的gzip压缩。
+#auth 当后端服务器响应页头部包含用于标示http授权证书的authorization头域时，启用对响应数据的gzip压缩。
+#any 无条件启用对后端服务器响应数据的gzip压缩。
+```
+8.gzip\_types指令
+
+nginx服务器可以根据响应页的MIME类型选择性的开启gzip压缩功能。
+
+```
+gzip_types mime-type ...;
+gzip_types text/plain application/x-javascript text/css text/html application/xml ;
+```
+
+9.gzip_vary 指令
+
+该指令用于设置在使用gzip功能时是否发送带有"Vary:Accept-Encoding"头域响应头部。告诉接收方发送的数据经过了压缩处理。
+
+```
+gzip_vary on |off;
+```
+
+
+
