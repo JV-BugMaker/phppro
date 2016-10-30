@@ -486,5 +486,75 @@ gzip_types text/plain application/x-javascript text/css text/html application/xm
 gzip_vary on |off;
 ```
 
+###由ngx\_http\_gzip\_static\_module模块处理的指令
+
+>ngx\_http\_gzip\_static\_module模块主要负责搜索和发送经过gzip功能压缩的数据。数据以".gz"作为后缀名存储在服务器上，如果数据已经被压缩了，直接返回该数据。该模块使用的是静态压缩。该模块相关的指令：gzip\_static gzip\_version gzip\_proxied gzip\_disable 和gzip\_vary 等。
+
+```
+gzip_static on | off |always;
+```
+其他指令都是如同上一节所说。
+
+###由ngx\_http\_gunzip\_module模块处理的2个指令
+
+该模块是用来处理针对不支持gzip压缩数据处理的客户端浏览器，对压缩数据进行解压处理的，与它相关的指令有：gunzip、gunzip\_buffers gzip\_http\_version gzip\_proxied gzip\_disable和gzip\_vary 
+
+1.gunzip指令
+
+该指令用于开启或者关闭该模块功能。
+
+```
+gunzip_static on |off;
+```
+
+2.gunzip_buffers指令
+
+用于设置nginx服务器解压gzip文件使用缓存空间的大小。
+
+```
+gunzip_buffers number size ;
+```
 
 
+3.nginx使用gzip综合实例
+
+在http块中的配置
+
+```
+gzip on;
+gzip_min_length 1024;
+gzip_buffers 4 16k;
+gzip_comp_level 2;
+gzip_types text/plain application/x-javascript text/css application/xml;
+gzip_vary on;
+gunzip_static on;
+```
+
+###nginx服务器gzip模块与浏览器不兼容处理
+
+```
+<!--[if ie 6.0 ]>
+<script src="index.js" type="text/c"></script>
+<![endif]-->
+#其中text\c保证脚本加载但不运行，从而不会对客户端性能造成影响。
+```
+增加gzip_disable "MSIE[1-6]\.";
+
+###nginx服务器与其他服务器交互时产生gzip压缩功能相关问题
+
+一类是多层服务器同时开启gzip压缩功能，二类是多层服务器之间对gzip压缩功能支持能力不同。
+
+如果前后端服务器同时开启gzip模块对JavaScript脚本进行压缩，页面加载时候JavaScript能够正常运行。但是当页面重新刷新，即304状态，并没有修改的情况下就是会出现执行错误。对于这样的情况，一般就是nginx服务器开启压缩，后端不进行压缩。
+
+第二种情况下squid服务器就是能静态压缩的情况下，nginx服务器就用开启静态压缩来使数据进行压缩，来支持。
+
+```
+gzip_static on;
+gzip_http_version 1.0;
+```
+
+ngx\_http\_gzip\_static\_module模块是，对于该模块下的gzip\_vary指令，开启后针对未压缩数据在http响应头添加"vary:Accept-Encoding"头域，而不是所有数据，于是我们不适用gzip\_vary，
+
+```
+add_header Vary Accept-Encoding gzip;
+```
