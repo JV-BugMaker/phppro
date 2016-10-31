@@ -558,3 +558,50 @@ ngx\_http\_gzip\_static\_module模块是，对于该模块下的gzip\_vary指令
 ```
 add_header Vary Accept-Encoding gzip;
 ```
+
+##Nginx服务器的rewrite功能
+
+###nginx后端服务器组的配置5个指令
+
+>它们是由标准HTTP模块ngx\_http\_upstream\_module进行解析和处理的。
+
+1.upstream指令
+
+设置后端服务器组的主要指令。
+
+```
+upstream name {...} 
+#name 是指后端服务器组的组名
+```
+
+默认情况下，某个服务器组接收到请求以后，按照轮叫调度（RR）策略顺序组内服务器处理请求。如果出现服务器错误，就会把请求进行顺延到下一个服务器进行处理。
+
+2.server指令
+
+该指令用于设置组内的服务器。
+
+```
+server address [parameters];
+#address 服务器地址 可以是包含端口号的ip地址、域名或者以“unix:”为前缀用于进程间通信的Unix Domain Socket。
+#parameters 为当前服务器配置更多属性。
+weight=number，为组内服务器设置权重，权重值高的服务器就被优先用于处理请求。组内服务器此时是加权轮询策略，组内默认值是1.
+max_fails=number,设置一个请求失败的次数。在一定时间范围内，当对组内某台服务器请求失败次数超过该变量设置的值时，认为该服务器无效。
+#404状态不被认为是请求失败
+#fail_timeout = number,一是设置max_fails指令尝试某台组内服务器的时间。另外一个就是在检查服务器是否有效时，如果一台服务器被认为down的，该变量设置的时间为认为该服务器无效持续时间。
+#down 将某台组内服务器标记为永久无效，通常与ip_hash指令配合使用。
+#backup 将某台组内服务器标记为备用服务器，只有当正常的服务器处于无效状态或者繁忙状态时，该服务器才会被启用。
+```
+
+```
+upstream backend 
+{
+	server backend1.jv.com weight=5;
+	server 127.0.0.1:8080 max_fails=3 fail_timeout=30;
+	server unix:/tmp/backend3;
+}
+
+```
+
+3.ip_hash指令
+
+
