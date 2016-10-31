@@ -604,4 +604,37 @@ upstream backend
 
 3.ip_hash指令
 
+该指令用于会话保持功能，将某个客户端的多次请求定向到组内同一台服务器上，保证客户端与服务器之间建立稳定的会话。
 
+```
+ip_hash;
+```
+
+ip_hash指令不能与server指令中的weight同时使用。ip_hash指令技术主要根据客户端ip地址分配服务器，因此在整个系统中，nginx服务器应该处于最前端的服务器，否则取不到客户端的地址，而且客户端的地址必须是c类地址。
+
+```
+upstream backend 
+{
+	ip_hash;
+	server jv.aihuishou.com;
+	server jv2.aihuishou.com;
+}
+#使用ip_hash之后，使用同一个客户端想nginx服务器发送请求报告时，都是jv.aihuishou.com做出响应。
+```
+
+4.keepalive指令
+
+该指令用于控制网络连接保持功能。通过该指令，能够保证nginx服务器的工作进程为服务器组内打开一部分网络连接，并将数量控制在一定范围内。
+
+```
+keepalive connection;
+#connection 为nginx服务器的每一个工作进程允许该服务器组保持的空闲网络连接数的上限值。
+```
+
+5.least_conn指令
+
+该指令用于配置nginx服务器使用负载均衡策略为网络连接分配服务器组内的服务器。
+
+```
+least_conn;
+```
