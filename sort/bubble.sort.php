@@ -8,7 +8,11 @@
  * 两两比较待排序数据元素的大小，发现两个数据元素的次序相反时即进行交换，直到没有反序的数据元素为止。
  * O(n2)
  */
+$num = $argv[1];
 
+for($i=0;$i<$num;$i++){
+	$arr[] = rand(1,$num);
+}
 
 function bubbleSort($arr){
     for($i=0,$len=count($arr);$i<$len;$i++){
@@ -24,5 +28,4 @@ function bubbleSort($arr){
     return $arr;
 }
 
-$arr = array(49,38,65,97,76,13,27,49);
 var_dump(bubbleSort($arr));
